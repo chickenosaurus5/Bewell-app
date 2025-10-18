@@ -11,13 +11,14 @@ class BaseModel(Model):
 
 class User(BaseModel):
     userId = AutoField()
-    username = CharField(unique=True)
+    firstName = CharField()
+    lastName = CharField()
     password = CharField()
     email = CharField(unique=True)
 
     
 
-# db_driver.create_tables(database,User)
+db_driver.create_tables(database,User)
 
 
 # db_driver.drop_tables(database,User)
