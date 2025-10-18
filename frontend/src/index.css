@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 270 40% 98%;
+    --foreground: 258 30% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 258 30% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 258 30% 20%;
+
+    --primary: 258 100% 64%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 285 100% 73%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 258 20% 96%;
+    --muted-foreground: 258 15% 50%;
+
+    --accent: 36 95% 56%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 258 20% 90%;
+    --input: 258 20% 90%;
+    --ring: 258 100% 64%;
+
+    --radius: 1rem;
+    
+    /* BeWell Custom Colors */
+    --notes: 285 100% 73%;
+    --activities: 36 95% 56%;
+    --books: 320 100% 85%;
+    --achievements: 90 75% 82%;
+    --calendar: 60 100% 96%;
+    --header: 258 100% 64%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(258 100% 64%) 0%, hsl(285 100% 73%) 100%);
+    --gradient-calm: linear-gradient(180deg, hsl(270 40% 98%) 0%, hsl(258 30% 96%) 100%);
+    
+    /* Shadows */
+    --shadow-gentle: 0 4px 20px -2px hsl(258 100% 64% / 0.1);
+    --shadow-lift: 0 8px 30px -4px hsl(258 100% 64% / 0.15);
+    --shadow-glow: 0 0 40px hsl(258 100% 64% / 0.2);
+    
+    /* Animations */
+    --transition-calm: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 258 40% 8%;
+    --foreground: 270 40% 98%;
+
+    --card: 258 30% 12%;
+    --card-foreground: 270 40% 98%;
+
+    --popover: 258 30% 12%;
+    --popover-foreground: 270 40% 98%;
+
+    --primary: 258 100% 64%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 285 100% 73%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 258 30% 20%;
+    --muted-foreground: 258 20% 70%;
+
+    --accent: 36 95% 56%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 258 30% 20%;
+    --input: 258 30% 20%;
+    --ring: 258 100% 64%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Nunito', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+@layer utilities {
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .gradient-calm {
+    background: var(--gradient-calm);
+  }
+  
+  .shadow-gentle {
+    box-shadow: var(--shadow-gentle);
+  }
+  
+  .shadow-lift {
+    box-shadow: var(--shadow-lift);
+  }
+  
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .transition-calm {
+    transition: var(--transition-calm);
+  }
+  
+  .hover-lift {
+    @apply transition-calm;
+  }
+  
+  .hover-lift:hover {
+    @apply shadow-lift -translate-y-1;
+  }
+}
