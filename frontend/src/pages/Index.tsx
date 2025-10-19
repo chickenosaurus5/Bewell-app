@@ -249,7 +249,7 @@ const Index = () => {
           <h2 className="text-4xl font-heading font-bold text-center mb-16">Our Mission</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {missionCards.map((card, index) => {
-              const colors = ['bg-notes text-white', 'bg-activities text-white', 'bg-books text-foreground'];
+              const colors = ['bg-notes text-white', 'bg-activities text-white', 'bg-books text-white'];
               return (
                 <div 
                   key={index}

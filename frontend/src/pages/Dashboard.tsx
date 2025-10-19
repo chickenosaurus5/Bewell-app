@@ -170,8 +170,8 @@ const Dashboard = () => {
                     : card.color === "activities"
                     ? "bg-activities text-white"
                     : card.color === "books"
-                    ? "bg-books text-foreground"
-                    : "bg-achievements text-foreground"
+                    ? "bg-books text-white"
+                    : "bg-achievements text-white"
                 }`}
               >
                 <div className="w-12 h-12 rounded-2xl bg-white/30 flex items-center justify-center mb-4">

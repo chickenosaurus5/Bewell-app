@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,8 @@ interface Message {
   content: string;
 }
 
+const API_URL = (import.meta.env.VITE_API_URL as string) ?? "http://localhost:8000";
+
 const AIChat = () => {
   const navigate = useNavigate();
   const [messages, setMessages] = useState<Message[]>([
@@ -21,6 +23,10 @@ const AIChat = () => {
   const [input, setInput] = useState("");
   const [chatColor, setChatColor] = useState("#8447FF");
   const [language, setLanguage] = useState("en");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const endRef = useRef<HTMLDivElement | null>(null);
 
   const previousChats = [
     { id: 1, name: "Morning Anxiety Discussion", date: "Today" },
@@ -35,19 +41,50 @@ const AIChat = () => {
   };
 
 
-  const handleSend = () => {
-    if (!input.trim()) return;
+  // const getUserId = (): number => {
+  //   const v = localStorage.getItem("userId");
+  //   const n = v ? Number(v) : NaN;
+  //   return Number.isFinite(n) ? n : 1;
+  // };
 
-    setMessages([...messages, { role: "user", content: input }]);
+  useEffect(() => {
+    // scroll to bottom when messages change
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const sendMessage = async () => {
+    if (!input.trim() || loading) return;
+    setError(null);
+    const text = input;
+
+    // optimistic UI: add user's message
+    setMessages((prev) => [...prev, { role: "user", content: text }]);
     setInput("");
+    setLoading(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      setMessages(prev => [...prev, {
-        role: "assistant",
-        content: "I understand. Can you tell me more about that?"
-      }]);
-    }, 1000);
+    try {
+      const res = await fetch(`http://127.0.0.1:8000/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: localStorage.getItem("loginUserId"), message: text }),
+      });
+
+      if (!res.ok) {
+        const txt = await res.text().catch(() => null);
+        throw new Error(txt || `HTTP ${res.status}`);
+      }
+
+      const data = await res.json();
+      const reply = typeof data?.reply === "string" ? data.reply : JSON.stringify(data?.reply ?? "No reply");
+
+      setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+    } catch (err: any) {
+      const msg = err?.message ?? "Request failed";
+      setError(msg);
+      setMessages((prev) => [...prev, { role: "assistant", content: "Error: " + msg }]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -190,12 +227,12 @@ const AIChat = () => {
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && handleSend()}
+              onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), sendMessage())}
               placeholder="Type your message..."
               className="flex-1"
             />
             <Button 
-              onClick={handleSend} 
+              onClick={sendMessage} 
               size="icon" 
               className="hover:opacity-90 transition-opacity"
               style={{ backgroundColor: chatColor }}

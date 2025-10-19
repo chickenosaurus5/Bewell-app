@@ -16,10 +16,15 @@ class User(BaseModel):
     password = CharField()
     email = CharField(unique=True)
 
+
+class ChatHistory(BaseModel):
+    user_id = IntegerField()
+    role = CharField()  # "user" or "assistant"
+    content = TextField()
     
 
-db_driver.create_tables(database,User)
+# db_driver.create_tables(database,User)
 
-
+# db_driver.create_tables(database,ChatHistory)
 # db_driver.drop_tables(database,User)
 
